@@ -1,0 +1,24 @@
+function orderWeight(strng) {
+    let weights = [];
+    for (let weight of strng.trim().split(" ")) {
+      let weightWeight = 0;
+      let digits = weight.split('');
+      for (let digit of digits) {
+        weightWeight += Number(digit);
+      }
+      weights.push({weight, weightWeight})
+    }
+  weights.sort(function(x, y) {
+    if (x.weightWeight > y.weightWeight) {return 1}
+    else if (x.weightWeight < y.weightWeight) {return -1}
+    else if (x.weightWeight == y.weightWeight) {
+      if (String(x.weight) > String(y.weight)) {return 1}
+      if (String(x.weight) <= String(y.weight)) {return -1}
+    }
+  })
+  let result = [];
+  for (let item of weights) {
+    result.push(item.weight);
+  }
+  return result.join(' ');
+}

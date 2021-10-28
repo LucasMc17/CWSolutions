@@ -1,0 +1,35 @@
+function formatDuration (seconds) {
+  let unitList = [];
+  if (seconds == 0) {return 'now'}
+  if (Math.floor(seconds / 31536000) > 1) {
+    unitList.push(Math.floor(seconds / 31536000) + ' years')
+  } else if (Math.floor(seconds / 31536000) > 0) {
+    unitList.push(Math.floor(seconds / 31536000) + ' year')
+  }
+  if (Math.floor(seconds / 86400) % 365 > 1) {
+    unitList.push(Math.floor(seconds / 86400) % 365 + ' days')
+  } else if (Math.floor(seconds / 86400) % 365 > 0) {
+    unitList.push(Math.floor(seconds / 86400) % 365 + ' day')
+  }
+  if (Math.floor(seconds / 3600) % 24 > 1) {
+    unitList.push(Math.floor(seconds / 3600) % 24 + ' hours')
+  } else if (Math.floor(seconds / 3600) % 24 > 0) {
+    unitList.push(Math.floor(seconds / 3600) % 24 + ' hour')
+  }
+  if (Math.floor(seconds / 60) % 60 > 1) {
+    unitList.push(Math.floor(seconds / 60) % 60 + ' minutes')
+  } else if (Math.floor(seconds / 60) % 60 > 0) {
+    unitList.push(Math.floor(seconds / 60) % 60 + ' minute')
+  }
+  if (seconds % 60 > 1) {
+    unitList.push(seconds % 60 + ' seconds')
+  } else if (seconds % 60 > 0) {
+    unitList.push(seconds % 60 + ' second')
+  }
+  let result = unitList.join(', ')
+  let i = result.lastIndexOf(',')
+  if (i != -1) {
+    result = result.slice(0, i) + ' and' + result.slice(i + 1);
+  }
+  return result;
+}

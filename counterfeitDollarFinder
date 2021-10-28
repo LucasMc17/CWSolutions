@@ -1,0 +1,54 @@
+function coinRemoval(coinList,nixedCoins) {
+  for (let coin of nixedCoins) {
+    if (coinList.includes(coin)) {
+      coinList = coinList.slice(0,coinList.indexOf(coin)) + coinList.slice(coinList.indexOf(coin) + 1);
+    }
+  }
+  return coinList;
+}
+
+function coinAddition(coinList,addedCoins) {
+  if (typeof addedCoins == "object") {
+    return coinList + addedCoins.join('');
+  } else {
+    return coinList + addedCoins;
+  }
+}
+
+function counterfeitDollar(results){
+  let coins = "ABCDEFGHIJKL", susCoins = coins, posLightCoins = '', posHeavyCoins = '', weight = '';
+  for (let result of results) {
+    if (result[10] == "e") {
+      let removedCoins = [result[0],result[1],result[2],result[3],result[5],result[6],result[7],result[8]]
+      susCoins = coinRemoval(susCoins, removedCoins);
+    }
+    if (result[10] == "u") {
+      let removedCoins = coinRemoval(coins,[result[0],result[1],result[2],result[3],result[5],result[6],result[7],result[8]])
+      susCoins = coinRemoval(susCoins, removedCoins);
+      let hCoins = [result[0],result[1],result[2],result[3]];
+      posHeavyCoins = coinAddition(posHeavyCoins,hCoins);
+      let lCoins = [result[5],result[6],result[7],result[8]];
+      posLightCoins = coinAddition(posLightCoins,lCoins);
+    }
+    if (result[10] == "d") {
+      let removedCoins = coinRemoval(coins,[result[0],result[1],result[2],result[3],result[5],result[6],result[7],result[8]])
+      susCoins = coinRemoval(susCoins, removedCoins);
+      let lCoins = [result[0],result[1],result[2],result[3]];
+      posLightCoins = coinAddition(posLightCoins,lCoins);
+      let hCoins = [result[5],result[6],result[7],result[8]];
+      posHeavyCoins = coinAddition(posHeavyCoins,hCoins);
+    }
+  }
+  if (susCoins.length > 1) {
+    return '???';
+  }
+  if (!posHeavyCoins.includes(susCoins) && !posLightCoins.includes(susCoins)) {
+    return '???';
+  }
+  if (posHeavyCoins.includes(susCoins)) {
+    weight = "heavy";
+  } else {
+    weight = "light";
+  }
+  return susCoins + ' is the counterfeit coin and it is ' + weight + ".";
+}
